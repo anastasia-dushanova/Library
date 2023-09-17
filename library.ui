@@ -34,9 +34,15 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page_books">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <widget class="QTableWidget" name="tableWidget_books">
       <property name="geometry">
        <rect>
@@ -46,17 +52,30 @@
         <height>381</height>
        </rect>
       </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>50</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::SolidLine</enum>
+      </property>
       <property name="columnCount">
-       <number>4</number>
+       <number>6</number>
       </property>
       <column>
        <property name="text">
         <string>ID</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Новый столбец</string>
        </property>
       </column>
       <column>
@@ -66,7 +85,22 @@
       </column>
       <column>
        <property name="text">
+        <string>Автор</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>ISBN</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Год публикации</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Количество</string>
        </property>
       </column>
      </widget>
@@ -88,12 +122,7 @@
       </column>
       <column>
        <property name="text">
-        <string>Фамилия</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Новый столбец</string>
+        <string>ФИО</string>
        </property>
       </column>
       <column>

@@ -6,6 +6,9 @@
 #include <QTabWidget>
 #include <QFile>
 #include <QDebug>
+#include <QString>
+#include <QTextCodec>
+#include <addbook.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Library; }
@@ -32,8 +35,14 @@ private slots:
 
     void on_listWidget_tasks_itemClicked(QListWidgetItem *item);
 
+    void slotAddNewBook(QStringList);
+
 private:
     Ui::Library *ui;
+
+    AddBook *addBook;
+    int rowCountTableBooks = 0;
+    int rowCountTableUsers = 0;
 
     void insertBooks(QString filename);
     void insertUsers(QString filename);
