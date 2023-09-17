@@ -10,17 +10,20 @@ CONFIG += c++11
 
 SOURCES += \
     addbook.cpp \
+    adduser.cpp \
     book.cpp \
     main.cpp \
     library.cpp
 
 HEADERS += \
     addbook.h \
+    adduser.h \
     book.h \
     library.h
 
 FORMS += \
     addbook.ui \
+    adduser.ui \
     library.ui
 
 # Default rules for deployment.

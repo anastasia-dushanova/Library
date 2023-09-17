@@ -9,6 +9,7 @@
 #include <QString>
 #include <QTextCodec>
 #include <addbook.h>
+#include <adduser.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Library; }
@@ -37,10 +38,13 @@ private slots:
 
     void slotAddNewBook(QStringList);
 
+    void slotAddNewUser(QStringList);
+
 private:
     Ui::Library *ui;
 
     AddBook *addBook;
+    AddUser *addUser;
     int rowCountTableBooks = 0;
     int rowCountTableUsers = 0;
 

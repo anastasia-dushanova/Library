@@ -15,23 +15,48 @@ Library::Library(QWidget *parent)
     insertBooks(QApplication::applicationDirPath() + "/books.txt");
     insertUsers(QApplication::applicationDirPath() + "/users.txt");
 
-    qDebug() << QApplication::applicationDirPath();
     ui->stackedWidget->setCurrentIndex(0);
 
     addBook = new AddBook();
+    addUser = new AddUser();
     connect(addBook, SIGNAL(saveBook(QStringList)), this, SLOT(slotAddNewBook(QStringList)));
+    connect(addUser, SIGNAL(saveUser(QStringList)), this, SLOT(slotAddNewUser(QStringList)));
 }
 
 Library::~Library()
 {
     delete ui;
     delete addBook;
+    delete addUser;
+}
+
+void Library::slotAddNewUser(QStringList list){
+    qDebug() << "add book";
+    int row = rowCountTableUsers+1;
+    ui->tableWidget_users->setRowCount(row);
+    QTableWidgetItem *id = new QTableWidgetItem(QString::number(row+1));
+    QTableWidgetItem *name = new QTableWidgetItem(list[0]);
+    QTableWidgetItem *books = new QTableWidgetItem(list[1]);
+
+    ui->tableWidget_users->setItem(rowCountTableUsers, 0, id);
+    ui->tableWidget_users->setItem(rowCountTableUsers, 1, name);
+    ui->tableWidget_users->setItem(rowCountTableUsers, 2, books);
+
+    QFile file(QApplication::applicationDirPath() + "/users.txt");
+    if(file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
+
+        QTextStream in(&file);
+        in <<row+1 << " | "
+           <<list[0] << " | "
+           << list[1] << "\n";
+    }
+    file.close();
 }
 
 void Library::slotAddNewBook(QStringList list){
     qDebug() << "add book";
-    int row = rowCountTableBooks;
-    ui->tableWidget_books->setRowCount(row+1);
+    int row = rowCountTableBooks+1;
+    ui->tableWidget_books->setRowCount(row);
     QTableWidgetItem *id = new QTableWidgetItem(QString::number(row+1));
     QTableWidgetItem *name = new QTableWidgetItem(list[0]);
     QTableWidgetItem *author = new QTableWidgetItem(list[1]);
@@ -39,15 +64,15 @@ void Library::slotAddNewBook(QStringList list){
     QTableWidgetItem *year = new QTableWidgetItem(list[3]);
     QTableWidgetItem *count = new QTableWidgetItem(list[4]);
 
-    ui->tableWidget_books->setItem(row, 0, id);
-    ui->tableWidget_books->setItem(row, 1, name);
-    ui->tableWidget_books->setItem(row, 2, author);
-    ui->tableWidget_books->setItem(row, 3, isbn);
-    ui->tableWidget_books->setItem(row, 4, year);
-    ui->tableWidget_books->setItem(row, 5, count);
+    ui->tableWidget_books->setItem(rowCountTableBooks, 0, id);
+    ui->tableWidget_books->setItem(rowCountTableBooks, 1, name);
+    ui->tableWidget_books->setItem(rowCountTableBooks, 2, author);
+    ui->tableWidget_books->setItem(rowCountTableBooks, 3, isbn);
+    ui->tableWidget_books->setItem(rowCountTableBooks, 4, year);
+    ui->tableWidget_books->setItem(rowCountTableBooks, 5, count);
 
     QFile file(QApplication::applicationDirPath() + "/books.txt");
-    if(file.open(QIODevice::WriteOnly | QIODevice::Append)){
+    if(file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
 
         QTextStream in(&file);
         in <<row+1 << " | "
@@ -69,7 +94,7 @@ void Library::on_pushButton_addBook_clicked()
 
 void Library::on_pushButton_addUser_clicked()
 {
-
+    addUser->show();
 }
 
 
@@ -77,7 +102,10 @@ void Library::on_pushButton_deleteBook_clicked()
 {
     qDebug() << "delete book";
     int row = ui->tableWidget_books->currentRow();
-    qDebug() << "cuurrentRow " << row;
+    if(row == -1)
+        return;
+
+    qDebug() << "currentRow " << row;
 
     QTableWidgetItem *item = ui->tableWidget_books->item(row, 0);
 
@@ -111,7 +139,37 @@ void Library::on_pushButton_deleteBook_clicked()
 
 void Library::on_pushButton_deleteUser_clicked()
 {
+    qDebug() << "delete user";
+    int row = ui->tableWidget_users->currentRow();
+    if(row == -1)
+        return;
 
+    qDebug() << "currentRow " << row;
+
+    QTableWidgetItem *item = ui->tableWidget_users->item(row, 0);
+
+    QStringList newList;
+    QFile file(QApplication::applicationDirPath() + "/users.txt");
+    if(file.open(QIODevice::ReadWrite | QIODevice::Text)){
+        QTextStream out(&file);
+        while(!out.atEnd()){
+            QString line = out.readLine();
+            QStringList lineList = line.split(" | ");
+            if(lineList[0] != item->text())
+                newList.append(lineList[0] + " | "
+                        + lineList[1] + " | "
+                        + lineList[2]);
+        }
+
+        file.resize(0);
+        for(int i = 0; i < newList.size(); ++i)
+           out << newList[i] << "\n";
+    }
+
+
+
+    ui->tableWidget_users->removeRow(row);
+    file.close();
 }
 
 

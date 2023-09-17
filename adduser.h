@@ -1,5 +1,5 @@
-#ifndef ADDBOOK_H
-#define ADDBOOK_H
+#ifndef ADDUSER_H
+#define ADDUSER_H
 
 #include <QWidget>
 #include <QDebug>
@@ -10,16 +10,16 @@
 #include <QMessageBox>
 
 namespace Ui {
-class AddBook;
+class AddUser;
 }
 
-class AddBook : public QWidget
+class AddUser : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit AddBook(QWidget *parent = nullptr);
-    ~AddBook();
+    explicit AddUser(QWidget *parent = nullptr);
+    ~AddUser();
 
 private slots:
     void on_pushButton_save_clicked();
@@ -27,12 +27,12 @@ private slots:
     void on_pushButton_cancel_clicked();
 
 signals:
-    void saveBook(QStringList);
+    void saveUser(QStringList);
 
 private:
-    Ui::AddBook *ui;
+    Ui::AddUser *ui;
 
     void clearContents();
 };
 
-#endif // ADDBOOK_H
+#endif // ADDUSER_H
