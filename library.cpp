@@ -175,7 +175,27 @@ void Library::on_pushButton_deleteUser_clicked()
 
 void Library::on_pushButton_search_clicked()
 {
+    qDebug() << "search";
+    QString name = ui->lineEdit_search->text();
+    if(name.isEmpty()) {
+        QMessageBox::warning(this,
+                             "Внимание",
+                             "Введите текст");
+        return;
+    }
 
+    QList<QTableWidgetItem *> listItems = ui->tableWidget_books->findItems(name,Qt::MatchExactly);
+    if(listItems.isEmpty())
+        ui->textBrowser_search->setText("Совпадений не найдено");
+    else{
+        ui->textBrowser_search->setText("Результаты поиска: \n");
+        for(int i = 0; i < listItems.size(); ++i){
+            QString prev = ui->textBrowser_search->toPlainText();
+            QString author = ui->tableWidget_books->item(listItems[i]->row(), 2)->text();
+            QString count = ui->tableWidget_books->item(listItems[i]->row(), 5)->text();
+            ui->textBrowser_search->setText(prev + listItems[i]->text() + "\t" + author + "\t" + count + "\n");
+        }
+    }
 }
 
 
